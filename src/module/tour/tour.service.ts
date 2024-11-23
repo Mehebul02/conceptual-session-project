@@ -18,6 +18,18 @@ const getSingleTour = async (id: string) => {
 }
 
 const updateTour = async (id: string, payload: Partial<ITour>) => {
-    const result = await Tour.findByIdAndUpdate(id, payload)
+    const result = await Tour.findByIdAndUpdate(id, payload,{new:true})
     return result
+}
+const deleteTour = async (id: string,) => {
+    const result = await Tour.findByIdAndDelete(id)
+    return result
+}
+
+export const tourService = {
+    createTours,
+    getTours,
+    getSingleTour,
+    updateTour,
+    deleteTour
 }
