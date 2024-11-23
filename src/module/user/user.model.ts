@@ -1,4 +1,5 @@
 import { model, Schema } from "mongoose";
+import { Iuser } from "./user.interface";
 
 
 const userSchema = new Schema({
@@ -10,7 +11,7 @@ const userSchema = new Schema({
             validator: function (value: string) {
                 return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value)
             },
-            immutable:true
+            immutable: true
         }
 
     },
@@ -19,6 +20,22 @@ const userSchema = new Schema({
     userStatus: { type: String, enum: { values: ["active", "inactive"], message: "{VALUES} is not valid" }, required: true },
 })
 
+
+// hook >>> pre 
+//  userSchema.pre("find", function(this,next){
+
+//     this.find({useStatus:{$eq:"active"}})
+//     next()
+
+//  })
+
+userSchema.post("find", function (docs, next) {
+    docs.forEach((doc: Iuser) => {
+        doc.name = doc.name.toUpperCase()
+
+    });
+    next()
+})
 
 const User = model('USer', userSchema)
 
