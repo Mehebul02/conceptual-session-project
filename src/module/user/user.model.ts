@@ -32,7 +32,6 @@ const userSchema = new Schema({
 userSchema.post("find", function (docs, next) {
     docs.forEach((doc: Iuser) => {
         doc.name = doc.name.toUpperCase()
-
     });
     next()
 })
